@@ -1,0 +1,82 @@
+# Visual Studio 2022 (17) specific files
+.vs/
+.vsconfig
+*.VC.db
+*.VC.VC.opendb
+*.VC.Open.dat
+*.sln.iml
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+x64/
+x86/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+*.[Pp]ublish.xml
+
+# Intermediate files
+*.ilk
+*.log
+*.obj
+*.pch
+*.pdb
+*.ipch
+*.exp
+*.tlog
+*.lastbuildstate
+*.idb
+*.iobj
+*.bsc
+
+# Executables
+*.exe
+*.so
+*.app
+*.out
+
+# OpenGL shader cache (if applicable)
+*.spv
+
+# Visual Studio user-specific files
+*.suo
+*.user
+*.userosscache
+*.sdf
+
+# Visual Studio Code files (if using alongside)
+.vscode/
+
+# CMake build directories
+[Oo]ut/
+[Cc]make/
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+
+# Dependency directories
+packages/
+[Dd]ependencies/
+
+# Documentation
+[Dd]ocs/
+*.md
+
+# Misc
+*.opendb
+*.opensdf
+*.filters
+*.aps
+*.ncb
+*.plg
+*.psess
+*.resx
+*.cachefile
+*.manifest
+*.spec
+Thumbs.db
