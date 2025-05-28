@@ -74,17 +74,14 @@ int main() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     stbi_set_flip_vertically_on_load(true);
-
     int width, height, nrChannels;
     unsigned char* data = stbi_load("Resources/fondo2.jpg", &width, &height, &nrChannels, 0);
-    if (data)
-    {
+    if (data) {
         GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
-    else
-    {
+    else {
         std::cout << "Error al cargar la textura" << std::endl;
     }
     stbi_image_free(data);
@@ -94,6 +91,11 @@ int main() {
     static bool showLabels = true;
     static bool isLoading = false;
     static std::string loadingMessage = "";
+
+    // Variables para pantalla de carga inicial
+    static bool showLoadingScreen = true;
+    static float loadingProgress = 0.0f;
+    static auto loadingStartTime = std::chrono::high_resolution_clock::now();
 
     // Main loop
     while (!glfwWindowShouldClose(window)) {
@@ -112,10 +114,36 @@ int main() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        // UI Panel
+        // Pantalla de carga inicial
+        if (showLoadingScreen) {
+            ImVec2 window_size = ImVec2(400, 120);
+            ImGui::SetNextWindowSize(window_size, ImGuiCond_Always);
+            ImGui::SetNextWindowPos(ImVec2(SCR_WIDTH * 0.5f, SCR_HEIGHT * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+            ImGui::Begin("Cargando recursos...");
+            ImGui::Text("Por favor espera mientras se cargan los recursos.");
+
+            auto now = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<float> elapsed = now - loadingStartTime;
+            loadingProgress = elapsed.count() / 3.0f; 
+
+            if (loadingProgress > 1.0f) {
+                loadingProgress = 1.0f;
+                showLoadingScreen = false; // Termina pantalla de carga
+            }
+
+            ImGui::ProgressBar(loadingProgress, ImVec2(-1.0f, 20));
+            ImGui::End();
+
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+            continue; // saltar resto del loop hasta terminar
+        }
+
+        // UI Panel principal
         ImGui::Begin("Panel de Anatomia del Cuerpo Humano");
 
-        // Barra superior
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.3f, 0.7f, 1.0f, 1.0f));
         ImGui::TextWrapped("Proyecto: Anatomia del Cuerpo Humano");
         ImGui::PopStyleColor();
@@ -142,6 +170,12 @@ int main() {
             loadingMessage = "Cargando Sistema Nervioso...";
         }
         if (ImGui::IsItemHovered()) ImGui::SetTooltip("Muestra el modelo del sistema nervioso humano.");
+
+        if (ImGui::Button("Ver Todos los Modelos")) {
+            isLoading = true;
+            loadingMessage = "Cargando los modelos...";
+        }
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Muestra los tres modelos anteriores del cuerpo humano en una sola ventana");
 
         if (isLoading) {
             ImGui::Separator();
