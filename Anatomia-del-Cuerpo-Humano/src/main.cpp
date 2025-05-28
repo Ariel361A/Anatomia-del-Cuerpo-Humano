@@ -106,9 +106,15 @@ int main() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-
-        // UI Panel
+        // UI Panel (single block)
         ImGui::Begin("Panel de Anatomia del Cuerpo Humano");
+
+        // Barra superior personalizada
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.3f, 0.7f, 1.0f, 1.0f));  // azul claro
+        ImGui::TextWrapped("Proyecto: Anatomia del Cuerpo Humano");
+        ImGui::PopStyleColor();
+        ImGui::Separator();
+
         static float zoom = 1.0f;
         static bool showLabels = true;
         static std::string activeSystem = "Ninguno";
@@ -119,12 +125,10 @@ int main() {
 
         if (ImGui::Button("Ver Sistema Oseo")) { activeSystem = "Sistema Oseo"; }
         if (ImGui::Button("Ver Sistema Muscular")) { activeSystem = "Sistema Muscular"; }
-        if (ImGui::Button(" Ver Sistema Nervioso")) { activeSystem = "Sistema Nervioso"; }
+        if (ImGui::Button("Ver Sistema Nervioso")) { activeSystem = "Sistema Nervioso"; }
 
         ImGui::Separator();
-
         ImGui::Checkbox("Mostrar etiquetas", &showLabels);
-
 
         ImGui::End();
 
