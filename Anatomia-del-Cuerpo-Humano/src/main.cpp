@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <chrono>
+#include <thread>
 #include "stb_image.h"
 
 #include "imgui.h"
@@ -24,7 +26,7 @@ int main() {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_CORE_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "OpenGL Anatomia Humana", NULL, NULL);
     if (!window) { std::cout << "Failed to create GLFW window" << std::endl; glfwTerminate(); return -1; }
     glfwMakeContextCurrent(window);
@@ -44,11 +46,9 @@ int main() {
 
     // Quad setup
     float quadVertices[] = {
-        // positions        // texCoords
         -1.0f,  1.0f, 0.0f,  0.0f, 1.0f,
         -1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
          1.0f, -1.0f, 0.0f,  1.0f, 0.0f,
-
         -1.0f,  1.0f, 0.0f,  0.0f, 1.0f,
          1.0f, -1.0f, 0.0f,  1.0f, 0.0f,
          1.0f,  1.0f, 0.0f,  1.0f, 1.0f
@@ -89,6 +89,12 @@ int main() {
     }
     stbi_image_free(data);
 
+    // Variables UI
+    static std::string activeSystem = "Ninguno";
+    static bool showLabels = true;
+    static bool isLoading = false;
+    static std::string loadingMessage = "";
+
     // Main loop
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -106,29 +112,62 @@ int main() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        // UI Panel (single block)
+        // UI Panel
         ImGui::Begin("Panel de Anatomia del Cuerpo Humano");
 
-        // Barra superior personalizada
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.3f, 0.7f, 1.0f, 1.0f));  // azul claro
+        // Barra superior
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.3f, 0.7f, 1.0f, 1.0f));
         ImGui::TextWrapped("Proyecto: Anatomia del Cuerpo Humano");
         ImGui::PopStyleColor();
         ImGui::Separator();
-
-        static float zoom = 1.0f;
-        static bool showLabels = true;
-        static std::string activeSystem = "Ninguno";
 
         ImGui::TextWrapped("Bienvenido al visor anatomico.\nUsa los botones para explorar cada sistema. Puedes rotar con el mouse y ajustar el zoom.");
         ImGui::Separator();
         ImGui::Text("Sistema seleccionado: %s", activeSystem.c_str());
 
-        if (ImGui::Button("Ver Sistema Oseo")) { activeSystem = "Sistema Oseo"; }
-        if (ImGui::Button("Ver Sistema Muscular")) { activeSystem = "Sistema Muscular"; }
-        if (ImGui::Button("Ver Sistema Nervioso")) { activeSystem = "Sistema Nervioso"; }
+        if (ImGui::Button("Ver Sistema Oseo")) {
+            isLoading = true;
+            loadingMessage = "Cargando Sistema Oseo...";
+        }
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Muestra el modelo del sistema oseo humano.");
+
+        if (ImGui::Button("Ver Sistema Muscular")) {
+            isLoading = true;
+            loadingMessage = "Cargando Sistema Muscular...";
+        }
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Muestra el modelo del sistema muscular humano.");
+
+        if (ImGui::Button("Ver Sistema Nervioso")) {
+            isLoading = true;
+            loadingMessage = "Cargando Sistema Nervioso...";
+        }
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Muestra el modelo del sistema nervioso humano.");
+
+        if (isLoading) {
+            ImGui::Separator();
+            ImGui::Text("%s", loadingMessage.c_str());
+            ImGui::End();
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+
+            if (loadingMessage.find("Oseo") != std::string::npos)
+                activeSystem = "Sistema Oseo";
+            else if (loadingMessage.find("Muscular") != std::string::npos)
+                activeSystem = "Sistema Muscular";
+            else if (loadingMessage.find("Nervioso") != std::string::npos)
+                activeSystem = "Sistema Nervioso";
+
+            isLoading = false;
+            continue;
+        }
 
         ImGui::Separator();
         ImGui::Checkbox("Mostrar etiquetas", &showLabels);
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Activa o desactiva las etiquetas descriptivas en el modelo.");
 
         ImGui::End();
 
