@@ -134,7 +134,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\DELL 5570\source\repos\Anatomia-del-Cuerpo-Humano\Anatomia-del-Cuerpo-Humano\Dependencies\include\stb;C:\Users\DELL 5570\source\repos\Anatomia-del-Cuerpo-Humano\imgui-master\imgui-master\backends;C:\Users\DELL 5570\source\repos\Anatomia-del-Cuerpo-Humano\imgui-master\imgui-master;$(ProjectDir)\Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,7 +152,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\DELL 5570\source\repos\Anatomia-del-Cuerpo-Humano\Anatomia-del-Cuerpo-Humano\Dependencies\include\stb;C:\Users\DELL 5570\source\repos\Anatomia-del-Cuerpo-Humano\imgui-master\imgui-master\backends;C:\Users\DELL 5570\source\repos\Anatomia-del-Cuerpo-Humano\imgui-master\imgui-master;$(ProjectDir)\Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,8 +163,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\imgui-master\imgui-master\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\imgui-master\imgui-master\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\imgui-master\imgui-master\imgui.cpp" />
+    <ClCompile Include="..\imgui-master\imgui-master\imgui_demo.cpp" />
+    <ClCompile Include="..\imgui-master\imgui-master\imgui_draw.cpp" />
+    <ClCompile Include="..\imgui-master\imgui-master\imgui_tables.cpp" />
+    <ClCompile Include="..\imgui-master\imgui-master\imgui_widgets.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\imgui-master\imgui-master\backends\imgui_impl_glfw.h" />
+    <ClInclude Include="..\imgui-master\imgui-master\backends\imgui_impl_opengl3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
