@@ -87,8 +87,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ReferencePath>$(ReferencePath)</ReferencePath>
-    <LibraryPath>$(ProjectDir)\Dependencies\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)\Dependencies\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\sanat\OneDrive\Documentos\GitHub\Anatomia-del-Cuerpo-Humano\Anatomia-del-Cuerpo-Humano\Dependencies\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\sanat\OneDrive\Documentos\GitHub\Anatomia-del-Cuerpo-Humano\Anatomia-del-Cuerpo-Humano\Dependencies\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -155,7 +155,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sanat\OneDrive\Documentos\GitHub\Anatomia-del-Cuerpo-Humano\Anatomia-del-Cuerpo-Humano\Dependencies\include;C:\Users\sanat\OneDrive\Documentos\GitHub\Anatomia-del-Cuerpo-Humano\Anatomia-del-Cuerpo-Humano\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

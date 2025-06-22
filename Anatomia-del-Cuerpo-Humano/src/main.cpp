@@ -1,4 +1,13 @@
+// main.cpp
+
+// --- Librer�as est�ndar ---
+#include <iostream>
+#include <filesystem>
+
+// --- GLAD: carga de punteros a funciones OpenGL ---
 #include <glad/glad.h>
+
+// --- GLFW: ventana y entrada ---
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
