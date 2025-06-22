@@ -111,7 +111,7 @@ int main()
 
     // load models
     // -----------
-    Model ourModel(FileSystem::getPath("Resources/objects/body/scene.gltf"));
+    Model ourModel(FileSystem::getPath("Resources/objects/muscular/Body2.glb"));
 
    
     
