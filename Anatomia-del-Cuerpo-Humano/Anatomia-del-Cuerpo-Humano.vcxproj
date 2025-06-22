@@ -142,7 +142,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;OpenAL32.lib;glfw3.lib;assimp-vc143-mtd.lib;kernel32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Anatomia-del-Cuerpo-Humano\Dependencies\lib\Debug;$(SolutionDir)\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Anatomia-del-Cuerpo-Humano\Dependencies\lib\Debug;$(SolutionDir)Anatomia-del-Cuerpo-Humano\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

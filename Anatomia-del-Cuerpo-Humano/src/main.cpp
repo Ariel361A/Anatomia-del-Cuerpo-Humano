@@ -37,8 +37,17 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-AudioManager audio;
-AudioManager flower;
+// -- example for create audio --
+
+
+//AudioManager flower;
+//flower.loadWAV("sunflower", FileSystem::getPath("Resources/sounds/sunflower.wav"));
+//flower.setLooping("sunflower", false);
+//flower.stop("sunflower");
+//AudioManager audio;
+//audio.loadWAV("pixelJump", FileSystem::getPath("Resources/sounds/pixel-jump.wav"));
+//audio.setLooping("pixelJump", false);
+//audio.play("pixelJump");
 
 
 
@@ -95,13 +104,11 @@ int main()
     // -----------
     Model ourModel(FileSystem::getPath("Resources/objects/body/scene.gltf"));
 
-    audio.loadWAV("pixelJump", FileSystem::getPath("Resources/sounds/pixel-jump.wav"));
-    audio.setLooping("pixelJump", false);
+   
     
 
-    flower.loadWAV("sunflower", FileSystem::getPath("Resources/sounds/sunflower.wav"));
-    flower.setLooping("sunflower", false);
-    flower.play("sunflower");
+    
+    //flower.play("sunflower");
     
 
 
@@ -167,8 +174,8 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
         camera.ProcessKeyboard(FORWARD, deltaTime);
-        audio.play("pixelJump");
-        flower.stop("sunflower");
+        
+        
 
         // Esperar un tiempo para escuchar el sonido
         //std::this_thread::sleep_for(std::chrono::seconds(1));
