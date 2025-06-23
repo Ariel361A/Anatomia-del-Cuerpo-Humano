@@ -21,20 +21,20 @@
 #include <thread>
 #include <chrono>
 
-// ✅ Declaraciones externas para evitar duplicación
+// Declaraciones externas para evitar duplicación
 extern Camera camera;
 extern float lastX, lastY;
 extern float deltaTime, lastFrame;
 extern bool firstMouse;
 
-// ✅ Declaración de callbacks ya definidos en otro archivo
+// Declaración de callbacks ya definidos en otro archivo
 extern void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 extern void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 extern void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 extern void processInput(GLFWwindow* window);
 extern void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
-// ✅ Resolución de pantalla
+// Resolución de pantalla
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
@@ -74,7 +74,7 @@ int iniciarAppModelo2()
 
     ShaderModel shaderModel("src/LoadModel.vs", "src/LoadModel.fs");
 
-    // ✅ Cambia aquí el modelo a cargar:
+    // Cambia aquí el modelo a cargar:
     Model ourModel(FileSystem::getPath("Resources/objects/sistemas_circulatorio_respiratorio_y_digestivo/scene.gltf"));
 
     glm::vec3 lightDir(-0.2f, -1.0f, -0.3f);
@@ -104,7 +104,7 @@ int iniciarAppModelo2()
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f));
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.2f));
+        model = glm::scale(model, glm::vec3(0.03f));
         shaderModel.setMat4("model", model);
 
         shaderModel.setVec3("dirLight.direction", lightDir);
