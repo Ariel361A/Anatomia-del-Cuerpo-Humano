@@ -116,7 +116,10 @@ int main()
 
     // load models
     // -----------
-    Model ourModel(FileSystem::getPath("Resources/objects/body/scene.gltf"));
+    Model ourModel(FileSystem::getPath("Resources/objects/insertion/scene.gltf"));
+
+    // insertion: https://sketchfab.com/3d-models/muscular-insertions-5f2a69f2b0cc47c2ab9853cabdea881f
+    // male full body https://sketchfab.com/3d-models/male-full-body-ecorche-ab11ebff89224f03bd75efede1164cf6
 
     // Light setup
     glm::vec3 lightDir(-0.2f, -1.0f, -0.3f);
@@ -159,9 +162,9 @@ int main()
 
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f,-10.0f)); // translate it down so it's at the center of the scene
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f,1.0f)); // translate it down so it's at the center of the scene
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.2f));	// it's a bit too big for our scene, so scale it down
+        model = glm::scale(model, glm::vec3(0.5f));	// it's a bit too big for our scene, so scale it down
         shaderModel.setMat4("model", model);
 
         // Set light properties

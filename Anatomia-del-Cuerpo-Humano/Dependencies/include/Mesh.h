@@ -26,6 +26,7 @@ struct Vertex {
     glm::vec3 Tangent;
     // bitangent
     glm::vec3 Bitangent;
+    glm::vec4 Color;
     //bone indexes which will influence this vertex
     int m_BoneIDs[MAX_BONE_INFLUENCE];
     //weights from each bone
@@ -52,6 +53,7 @@ public:
     vector<Texture>      textures;
     Material material;
     unsigned int VAO;
+    int hasVertexColor = 0;
 
     // constructor
     Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, Material mat = Material())
