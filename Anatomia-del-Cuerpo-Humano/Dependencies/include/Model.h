@@ -84,6 +84,13 @@ private:
 
     }
 
+    glm::vec3 getMaterialColor(aiMaterial* mat, const char* pKey, unsigned int type, unsigned int idx) {
+        aiColor3D color(0.f, 0.f, 0.f);
+        mat->Get(pKey, type, idx, color);
+        return glm::vec3(color.r, color.g, color.b);
+    }
+
+
     Mesh processMesh(aiMesh* mesh, const aiScene* scene)
     {
         // data to fill
@@ -109,6 +116,9 @@ private:
                 vector.z = mesh->mNormals[i].z;
                 vertex.Normal = vector;
             }
+
+            
+
             // texture coordinates
             if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
             {
@@ -150,6 +160,12 @@ private:
         // diffuse: texture_diffuseN
         // specular: texture_specularN
         // normal: texture_normalN
+        // Create material struct and load properties
+
+        Material mat;
+        mat.diffuseColor = getMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE);
+        mat.specularColor = getMaterialColor(material, AI_MATKEY_COLOR_SPECULAR);
+        material->Get(AI_MATKEY_SHININESS, mat.shininess);
 
         // 1. diffuse maps
         vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
@@ -165,7 +181,8 @@ private:
         textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
         // return a mesh object created from the extracted mesh data
-        return Mesh(vertices, indices, textures);
+        // Update return to include material
+        return Mesh(vertices, indices, textures, mat);
     }
 
     // checks all material textures of a given type and loads the textures if they're not loaded yet.

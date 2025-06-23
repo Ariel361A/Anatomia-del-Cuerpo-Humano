@@ -22,15 +22,15 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 #include "AudioManager.h"
-#include <thread>      // Para std::this_thread
-#include <chrono>      // Para std::chrono::seconds
-
-#include <iostream>
+#include <thread>      // for std::this_thread
+#include <chrono>      // for std::chrono::seconds
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window);
+// Mouse button callback
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -42,6 +42,10 @@ float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
 
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
@@ -52,6 +56,7 @@ float lastFrame = 0.0f;
 //AudioManager flower;
 //flower.loadWAV("sunflower", FileSystem::getPath("Resources/sounds/sunflower.wav"));
 //flower.setLooping("sunflower", false);
+//flower.play("sunflower");
 //flower.stop("sunflower");
 //AudioManager audio;
 //audio.loadWAV("pixelJump", FileSystem::getPath("Resources/sounds/pixel-jump.wav"));
@@ -107,19 +112,17 @@ int main()
 
     // build and compile shaders
     // -------------------------
-    ShaderModel ourShader("src/LoadModel.vs", "src/LoadModel.fs");
+    ShaderModel shaderModel("src/LoadModel.vs", "src/LoadModel.fs");
 
     // load models
     // -----------
     Model ourModel(FileSystem::getPath("Resources/objects/body/scene.gltf"));
 
-   
-    
-
-    
-    //flower.play("sunflower");
-    
-
+    // Light setup
+    glm::vec3 lightDir(-0.2f, -1.0f, -0.3f);
+    glm::vec3 lightAmbient(0.25f, 0.25f, 0.25f);
+    glm::vec3 lightDiffuse(0.7f, 0.7f, 0.7f);
+    glm::vec3 lightSpecular(1.0f, 1.0f, 1.0f);
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -137,6 +140,8 @@ int main()
         // input
         // -----
         processInput(window);
+        glfwSetCursorPosCallback(window, mouse_callback);
+        glfwSetMouseButtonCallback(window, mouse_button_callback);
 
         // render
         // ------
@@ -144,20 +149,28 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // don't forget to enable shader before setting uniforms
-        ourShader.use();
+        shaderModel.use();
 
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 500.0f);
         glm::mat4 view = camera.GetViewMatrix();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
+        shaderModel.setMat4("projection", projection);
+        shaderModel.setMat4("view", view);
 
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f,-10.0f)); // translate it down so it's at the center of the scene
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.2f));	// it's a bit too big for our scene, so scale it down
-        ourShader.setMat4("model", model);
-        ourModel.Draw(ourShader);
+        shaderModel.setMat4("model", model);
+
+        // Set light properties
+        shaderModel.setVec3("dirLight.direction", lightDir);
+        shaderModel.setVec3("dirLight.ambient", lightAmbient);
+        shaderModel.setVec3("dirLight.diffuse", lightDiffuse);
+        shaderModel.setVec3("dirLight.specular", lightSpecular);
+        ourModel.Draw(shaderModel);
+
 
         
 
@@ -228,7 +241,7 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
     lastX = xpos;
     lastY = ypos;
 
-    camera.ProcessMouseMovement(xoffset, yoffset);
+    camera.ProcessMouseMovement(static_cast<float>(xpos), static_cast<float>(ypos));
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
@@ -236,4 +249,13 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     camera.ProcessMouseScroll(static_cast<float>(yoffset));
+}
+
+
+// Mouse button callback
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+        camera.SetLeftMousePressed(action == GLFW_PRESS);
+    }
 }
