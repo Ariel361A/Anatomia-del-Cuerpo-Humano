@@ -65,7 +65,7 @@ float lastFrame = 0.0f;
 
 
 
-int main()
+int iniciarAppModelo()
 {
     // glfw: initialize and configure
     // ------------------------------
@@ -162,7 +162,7 @@ int main()
 
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f,1.0f)); // translate it down so it's at the center of the scene
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f,-10.0f)); // translate it down so it's at the center of the scene
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.5f));	// it's a bit too big for our scene, so scale it down
         shaderModel.setMat4("model", model);
@@ -175,7 +175,7 @@ int main()
         ourModel.Draw(shaderModel);
 
 
-        
+
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -199,14 +199,14 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
         camera.ProcessKeyboard(FORWARD, deltaTime);
-        
-        
+
+
 
         // Esperar un tiempo para escuchar el sonido
         //std::this_thread::sleep_for(std::chrono::seconds(1));
 
     }
-        
+
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
         camera.ProcessKeyboard(BACKWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)

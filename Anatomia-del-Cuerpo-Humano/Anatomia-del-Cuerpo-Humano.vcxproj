@@ -132,17 +132,17 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>IMGUI_IMPL_OPENGL_LOADER_GLAD;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)Anatomia-del-Cuerpo-Humano\Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\include;$(ProjectDir)Dependencies\include\ImGui;$(ProjectDir)Dependencies\include\Imgui\backends</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;OpenAL32.lib;glfw3.lib;assimp-vc143-mtd.lib;kernel32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Anatomia-del-Cuerpo-Humano\Dependencies\lib\Debug;$(SolutionDir)Anatomia-del-Cuerpo-Humano\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\lib\Debug;$(ProjectDir)Dependencies\lib;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,8 +167,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dependencies\include\ImGui\backends\imgui_impl_glfw.cpp">
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\ImGui\backends\imgui_impl_opengl3.cpp">
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\ImGui\imgui.cpp">
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\ImGui\imgui_demo.cpp">
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\ImGui\imgui_draw.cpp">
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\ImGui\imgui_tables.cpp">
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\ImGui\imgui_widgets.cpp">
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="modelo2.cpp" />
     <ClCompile Include="src\AudioManager.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\Inicio.cpp">
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
@@ -176,6 +203,33 @@
     <ClInclude Include="Dependencies\include\AudioManager.h" />
     <ClInclude Include="Dependencies\include\Camera.h" />
     <ClInclude Include="Dependencies\include\FileSystem.h" />
+    <ClInclude Include="Dependencies\include\ImGui\backends\imgui_impl_glfw.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\ImGui\backends\imgui_impl_opengl3.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\ImGui\backends\imgui_impl_opengl3_loader.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\ImGui\imconfig.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\ImGui\imgui.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\ImGui\imgui_internal.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\ImGui\imstb_rectpack.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\ImGui\imstb_textedit.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\ImGui\imstb_truetype.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
     <ClInclude Include="Dependencies\include\Mesh.h" />
     <ClInclude Include="Dependencies\include\Model.h" />
     <ClInclude Include="Dependencies\include\root_directory.h" />
@@ -185,6 +239,20 @@
   <ItemGroup>
     <None Include="src\LoadModel.fs" />
     <None Include="src\LoadModel.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\Fonts\times.ttf">
+      <DeploymentContent>true</DeploymentContent>
+    </Font>
+    <Font Include="Resources\Fonts\timesbd.ttf">
+      <DeploymentContent>true</DeploymentContent>
+    </Font>
+    <Font Include="Resources\Fonts\timesbi.ttf">
+      <DeploymentContent>true</DeploymentContent>
+    </Font>
+    <Font Include="Resources\Fonts\timesi.ttf">
+      <DeploymentContent>true</DeploymentContent>
+    </Font>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

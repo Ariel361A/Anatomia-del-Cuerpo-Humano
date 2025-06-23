@@ -1,0 +1,11 @@
+Model Information:
+* title:	Sistemas: Circulatorio, Respiratorio y Digestivo
+* source:	https://sketchfab.com/3d-models/sistemas-circulatorio-respiratorio-y-digestivo-87fe0b3502834ec6b77807d3f498bdde
+* author:	EVE3D UNAM (https://sketchfab.com/eve3d_unam)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Sistemas: Circulatorio, Respiratorio y Digestivo" (https://sketchfab.com/3d-models/sistemas-circulatorio-respiratorio-y-digestivo-87fe0b3502834ec6b77807d3f498bdde) by EVE3D UNAM (https://sketchfab.com/eve3d_unam) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)

@@ -7,9 +7,12 @@
 
 namespace fs = std::filesystem;
 
-extern int iniciarAppModelo();  // Llamado al main real
+// Declaración de funciones para los modelos
+extern int iniciarAppModelo();   // Modelo1
+extern int iniciarAppModelo2();  // Modelo2
 
-bool iniciar = false;
+bool iniciarModelo1 = false;
+bool iniciarModelo2 = false;
 
 int main() {
     if (!glfwInit())
@@ -44,7 +47,7 @@ int main() {
     ImFont* fuenteGrande = nullptr;
     ImFont* fuenteBoton = nullptr;
 
-    while (!glfwWindowShouldClose(window) && !iniciar) {
+    while (!glfwWindowShouldClose(window) && !iniciarModelo1 && !iniciarModelo2) {
         glfwPollEvents();
 
         int display_w, display_h;
@@ -53,14 +56,13 @@ int main() {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Regenerar fuentes si cambia la altura de la pantalla
         if (last_display_h != display_h) {
             io.Fonts->Clear();
             float tamanioFuenteTitulo = display_h * 0.06f;
             float tamanioFuenteBoton = display_h * 0.045f;
             fuenteGrande = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), tamanioFuenteTitulo);
             fuenteBoton = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), tamanioFuenteBoton);
-            io.Fonts->Build();  // reconstruye la fuente
+            io.Fonts->Build();
             ImGui_ImplOpenGL3_DestroyDeviceObjects();
             ImGui_ImplOpenGL3_CreateDeviceObjects();
             last_display_h = display_h;
@@ -81,25 +83,32 @@ int main() {
         float posX = (display_w - textoSize.x) * 0.5f;
         float posY = display_h * 0.2f;
 
-        ImGui::SetCursorPos(ImVec2(posX + 2, posY + 2));  // sombra
+        ImGui::SetCursorPos(ImVec2(posX + 2, posY + 2));
         ImGui::TextColored(ImVec4(0.0f, 0.0f, 0.4f, 0.6f), textoBienvenida);
-        ImGui::SetCursorPos(ImVec2(posX, posY));          // texto frontal
+        ImGui::SetCursorPos(ImVec2(posX, posY));
         ImGui::TextColored(ImVec4(0.0f, 0.4f, 0.9f, 1.0f), textoBienvenida);
-
         if (fuenteGrande) ImGui::PopFont();
 
-        ImGui::Dummy(ImVec2(0.0f, display_h * 0.1f)); // Espacio entre texto y botón
+        ImGui::Dummy(ImVec2(0.0f, display_h * 0.1f));
 
         if (fuenteBoton) ImGui::PushFont(fuenteBoton);
         float botonAncho = display_w * 0.2f;
         float botonAlto = display_h * 0.1f;
-        ImGui::SetCursorPosX((display_w - botonAncho) * 0.5f);
+
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.4f, 0.9f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.5f, 1.0f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-        if (ImGui::Button("Iniciar", ImVec2(botonAncho, botonAlto))) {
-            iniciar = true;
+        ImGui::SetCursorPosX((display_w - botonAncho) * 0.5f);
+        if (ImGui::Button("Modelo1", ImVec2(botonAncho, botonAlto))) {
+            iniciarModelo1 = true;
+        }
+
+        ImGui::Dummy(ImVec2(0.0f, display_h * 0.03f));  // Espacio entre botones
+
+        ImGui::SetCursorPosX((display_w - botonAncho) * 0.5f);
+        if (ImGui::Button("Modelo2", ImVec2(botonAncho, botonAlto))) {
+            iniciarModelo2 = true;
         }
 
         ImGui::PopStyleColor(3);
@@ -111,13 +120,14 @@ int main() {
         glfwSwapBuffers(window);
     }
 
-    // Limpieza completa
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
     glfwDestroyWindow(window);
     glfwTerminate();
 
-    if (!iniciar) return 0;
-    return iniciarAppModelo();
+    if (iniciarModelo1) return iniciarAppModelo();     // antes era iniciarAppModelo1()
+    if (iniciarModelo2) return iniciarAppModelo2();
+    return 0;
 }
+
