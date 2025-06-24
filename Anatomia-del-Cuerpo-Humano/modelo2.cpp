@@ -1,10 +1,7 @@
 ﻿#include <iostream>
 #include <filesystem>
 
-// --- GLAD: carga de punteros a funciones OpenGL ---
 #include <glad/glad.h>
-
-// --- GLFW: ventana y entrada ---
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
@@ -21,20 +18,23 @@
 #include <thread>
 #include <chrono>
 
-// Declaraciones externas para evitar duplicación
+// === ImGui ===
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+
+// Declaraciones externas
 extern Camera camera;
 extern float lastX, lastY;
 extern float deltaTime, lastFrame;
 extern bool firstMouse;
 
-// Declaración de callbacks ya definidos en otro archivo
 extern void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 extern void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 extern void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 extern void processInput(GLFWwindow* window);
 extern void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
-// Resolución de pantalla
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
@@ -57,6 +57,8 @@ int iniciarAppModelo2()
         return -1;
     }
     glfwMakeContextCurrent(window);
+
+    // Callbacks
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
@@ -69,12 +71,21 @@ int iniciarAppModelo2()
         return -1;
     }
 
+    // === ImGui Setup ===
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 130");
+    ImGui::StyleColorsDark();
+    // ====================
+
     stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
 
     ShaderModel shaderModel("src/LoadModel.vs", "src/LoadModel.fs");
 
-    // Cambia aquí el modelo a cargar:
     Model ourModel(FileSystem::getPath("Resources/objects/sistemas_circulatorio_respiratorio_y_digestivo/scene.gltf"));
 
     glm::vec3 lightDir(-0.2f, -1.0f, -0.3f);
@@ -114,9 +125,26 @@ int iniciarAppModelo2()
 
         ourModel.Draw(shaderModel);
 
+        // === ImGui Frame ===
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        // Puedes agregar tu interfaz aquí (si lo deseas)
+        // ImGui::Begin("Modelo cargado"); ImGui::Text("Sistema digestivo"); ImGui::End();
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        // ====================
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    // === Cleanup ImGui ===
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     glfwTerminate();
     return 0;
