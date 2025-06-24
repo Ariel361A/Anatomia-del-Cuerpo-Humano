@@ -10,6 +10,8 @@
 // Referencia global a la cámara (debe estar declarada en main.cpp)
 extern Camera camera;
 
+
+
 // Mapa de posiciones para cada parte del esqueleto
 std::map<std::string, glm::vec3> posicionesPartes = {
     {u8"1. Mandibula", glm::vec3(0.0f, 0.4f, -10.5f)},
@@ -20,9 +22,10 @@ std::map<std::string, glm::vec3> posicionesPartes = {
     {u8"6. Columna vertebral", glm::vec3(0.0f, 0.0f, -10.5f)},
     {u8"7. Femur", glm::vec3(0.0f, -0.4f, -10.5f)},
     {u8"8. Tibia", glm::vec3(0.0f, -0.7f, -10.5f)},
-    {u8"9. Costillas", glm::vec3(0.0f, 0.1f, -10.5f)},
-    {u8"10. Metatarso", glm::vec3(0.0f, -0.9f, -10.5f)},
+    {u8"9. Costillas", glm::vec3(0.0f, 0.1f, -10.5f)}
 };
+
+
 
 void mostrarPanelEsqueleto() {
     static char filtro[64] = "";
@@ -38,7 +41,7 @@ void mostrarPanelEsqueleto() {
         {7, u8"7. Femur"},
         {8, u8"8. Tibia"},
         {9, u8"9. Costillas"},
-        {10, u8"10. Metatarso"},
+        
     };
 
     ImGuiIO& io = ImGui::GetIO();
@@ -68,18 +71,257 @@ void mostrarPanelEsqueleto() {
             if (ImGui::Selectable(parte.second.c_str(), isSelected)) {
                 seleccion = parteNombre;
 
-                // Acción al seleccionar: mover cámara a la parte correspondiente
-                auto it = posicionesPartes.find(seleccion);
-                if (it != posicionesPartes.end()) {
-                    camera.Position = it->second;
-
-                    // Que mire al centro del modelo (ajustable según tu escena)
-                    glm::vec3 target = glm::vec3(0.0f, 0.0f, 0.0f);
-                    camera.Front = glm::normalize(target - camera.Position);
+                // Movimiento personalizado de la cámara
+                if (seleccion == u8"1. Mandibula") {
+                    camera.Position = glm::vec3(0.24f, 1.75f, -7.00f);
+                    glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
+                    camera.Front = glm::normalize( camera.Position - foco);
+                }
+                else if (seleccion == u8"2. Clavicula") {
+                    camera.Position = glm::vec3(-0.50f, 1.60f, -7.20f);
+                    glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
+                    camera.Front = glm::normalize(camera.Position - foco);
+                }
+                else if (seleccion == u8"3. Humero") {
+                    camera.Position = glm::vec3(1.0f, 1.14f, -7.30f);
+                    glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
+                    camera.Front = glm::normalize(camera.Position - foco);
+                }
+                else if (seleccion == u8"4. Radio") {
+                    camera.Position = glm::vec3(-0.65f, 0.30f, -8.0f);
+                    glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
+                    camera.Front = glm::normalize(camera.Position - foco);
+                }
+                else if (seleccion == u8"5. Rotula") {
+                    camera.Position = glm::vec3(0.95f, -0.89f, -7.00f);
+                    glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
+                    camera.Front = glm::normalize(camera.Position - foco);
+                }
+                else if (seleccion == u8"6. Columna vertebral") {
+                    camera.Position = glm::vec3(0.62f, 0.55f, -7.65f);
+                    glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
+                    camera.Front = glm::normalize(camera.Position - foco);
+                }
+                else if (seleccion == u8"7. Femur") {
+                    camera.Position = glm::vec3(-0.52f, -0.47f, -7.33f);
+                    glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
+                    camera.Front = glm::normalize(camera.Position - foco);
+                }
+                else if (seleccion == u8"8. Tibia") {
+                    camera.Position = glm::vec3(-0.67f, -1.28f, -7.62f);
+                    glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
+                    camera.Front = glm::normalize(camera.Position - foco);
+                }
+                else if (seleccion == u8"9. Costillas") {
+                    camera.Position = glm::vec3(-0.55f, 1.36f, -7.46f);
+                    glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
+                    camera.Front = glm::normalize(camera.Position - foco);
+                }
+                else {
+                    // Fallback a la posición del mapa si no está personalizada
+                    auto it = posicionesPartes.find(seleccion);
+                    if (it != posicionesPartes.end()) {
+                        camera.Position = it->second;
+                        glm::vec3 foco = glm::vec3(0.0f, 0.0f, 0.0f);
+                        camera.Front = glm::normalize(camera.Position - foco);
+                    }
                 }
             }
         }
     }
+
+    // Mostrar etiqueta solo si la selección actual es "Mandíbula"
+    if (seleccion == u8"1. Mandibula") {
+        ImVec2 etiquetaPos = ImVec2(1050, 400);  // Ajusta según tu layout
+        ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
+        ImGui::SetNextWindowBgAlpha(0.85f);
+
+        ImGui::Begin("EtiquetaMandibula", nullptr,
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_AlwaysAutoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoSavedSettings);
+
+        ImGui::Text("Mandíbula");
+        ImGui::End();
+
+        // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
+        ImVec2 puntoMandibula2D = ImVec2(803, 464);
+
+        // Dibuja línea
+        ImDrawList* drawList = ImGui::GetBackgroundDrawList();
+        drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
+    }
+    else if (seleccion == u8"2. Clavicula") {
+        ImVec2 etiquetaPos = ImVec2(700, 300);  // Ajusta según tu layout
+        ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
+        ImGui::SetNextWindowBgAlpha(0.85f);
+        ImGui::Begin("EtiquetaClavicula", nullptr,
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_AlwaysAutoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoSavedSettings);
+        ImGui::Text("Clavícula");
+        ImGui::End();
+        // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
+        ImVec2 puntoMandibula2D = ImVec2(1080, 570);
+
+        // Dibuja línea
+        ImDrawList* drawList = ImGui::GetBackgroundDrawList();
+        drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
+	}
+    else if (seleccion == u8"3. Humero") {
+        ImVec2 etiquetaPos = ImVec2(1000, 350);  // Ajusta según tu layout
+        ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
+        ImGui::SetNextWindowBgAlpha(0.85f);
+        ImGui::Begin("EtiquetaHumero", nullptr,
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_AlwaysAutoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoSavedSettings);
+        ImGui::Text("Húmero");
+		ImGui::End();
+
+        // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
+        ImVec2 puntoMandibula2D = ImVec2(338, 452);
+
+        // Dibuja línea
+        ImDrawList* drawList = ImGui::GetBackgroundDrawList();
+        drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
+        }
+    else if (seleccion == u8"4. Radio") {
+        ImVec2 etiquetaPos = ImVec2(800, 300);  // Ajusta según tu layout
+        ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
+        ImGui::SetNextWindowBgAlpha(0.85f);
+        ImGui::Begin("EtiquetaRadio", nullptr,
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_AlwaysAutoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoSavedSettings);
+		ImGui::Text("Radio");
+        ImGui::End();
+
+        // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
+        ImVec2 puntoMandibula2D = ImVec2(1088, 315);
+
+        // Dibuja línea
+        ImDrawList* drawList = ImGui::GetBackgroundDrawList();
+        drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
+    }
+    else if (seleccion == u8"5. Rotula") {
+        ImVec2 etiquetaPos = ImVec2(800, 260);  // Ajusta según tu layout
+        ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
+        ImGui::SetNextWindowBgAlpha(0.85f);
+        ImGui::Begin("EtiquetaRotula", nullptr,
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_AlwaysAutoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoCollapse |
+			ImGuiWindowFlags_NoSavedSettings);
+        ImGui::Text("Rótula");
+        ImGui::End();
+
+        // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
+        ImVec2 puntoMandibula2D = ImVec2(225, 268);
+
+        // Dibuja línea
+        ImDrawList* drawList = ImGui::GetBackgroundDrawList();
+        drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
+    }
+    else if (seleccion == u8"6. Columna vertebral") {
+        ImVec2 etiquetaPos = ImVec2(900, 300);  // Ajusta según tu layout
+        ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
+        ImGui::SetNextWindowBgAlpha(0.85f);
+        ImGui::Begin("EtiquetaColumna", nullptr,
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_AlwaysAutoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoSavedSettings);
+        ImGui::Text("Columna vertebral");
+        ImGui::End();
+
+        // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
+        ImVec2 puntoMandibula2D = ImVec2(280, 310);
+
+        // Dibuja línea
+        ImDrawList* drawList = ImGui::GetBackgroundDrawList();
+        drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
+    }
+    else if (seleccion == u8"7. Femur") {
+        ImVec2 etiquetaPos = ImVec2(800, 380);  // Ajusta según tu layout
+        ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
+        ImGui::SetNextWindowBgAlpha(0.85f);
+        ImGui::Begin("EtiquetaFemur", nullptr,
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_AlwaysAutoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoCollapse |
+			ImGuiWindowFlags_NoSavedSettings);
+        ImGui::Text("Fémur");
+        ImGui::End();
+
+        // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
+        ImVec2 puntoMandibula2D = ImVec2(1150, 281);
+
+        // Dibuja línea
+        ImDrawList* drawList = ImGui::GetBackgroundDrawList();
+        drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
+    }
+    else if (seleccion == u8"8. Tibia") {
+        ImVec2 etiquetaPos = ImVec2(800, 400);  // Ajusta según tu layout
+        ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
+        ImGui::SetNextWindowBgAlpha(0.85f);
+        ImGui::Begin("EtiquetaTibia", nullptr,
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_AlwaysAutoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+			ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoSavedSettings);
+        ImGui::Text("Tibia");
+        ImGui::End();
+
+        // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
+        ImVec2 puntoMandibula2D = ImVec2(1400, 330);
+
+        // Dibuja línea
+        ImDrawList* drawList = ImGui::GetBackgroundDrawList();
+        drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
+    }
+    else if (seleccion == u8"9. Costillas") {
+        ImVec2 etiquetaPos = ImVec2(800, 680);  // Ajusta según tu layout
+        ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
+        ImGui::SetNextWindowBgAlpha(0.85f);
+        ImGui::Begin("EtiquetaCostillas", nullptr,
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_AlwaysAutoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+			ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoSavedSettings);
+        ImGui::Text("Costillas");
+        ImGui::End();
+
+        // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
+        ImVec2 puntoMandibula2D = ImVec2(1150, 650);
+
+        // Dibuja línea
+        ImDrawList* drawList = ImGui::GetBackgroundDrawList();
+        drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
+    }
+   
 
     ImGui::EndChild();
     ImGui::End();

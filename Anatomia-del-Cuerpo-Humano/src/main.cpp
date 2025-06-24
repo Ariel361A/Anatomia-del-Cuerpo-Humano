@@ -158,50 +158,35 @@ int iniciarAppModelo()
     // -----------
     while (!glfwWindowShouldClose(window))
     {
-        // per-frame time logic
-        // --------------------
+        // --- Hacer el contexto actual antes de cualquier acción ---
+        glfwMakeContextCurrent(window);
+
+        // --- Captura de eventos del sistema (teclado, mouse, etc.) ---
+        glfwPollEvents();
+
+        // --- Lógica de tiempo por frame ---
         float currentFrame = static_cast<float>(glfwGetTime());
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        // input
-        // -----
+        // --- Entrada del usuario ---
         processInput(window);
-        glfwSetCursorPosCallback(window, mouse_callback);
-        glfwSetMouseButtonCallback(window, mouse_button_callback);
 
-        // render
-        // ------
+        // --- Limpieza de pantalla ---
         glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // don't forget to enable shader before setting uniforms
-        shaderModel.use();
-
-        // view/projection transformations
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 500.0f);
-        glm::mat4 view = camera.GetViewMatrix();
-        shaderModel.setMat4("projection", projection);
-        shaderModel.setMat4("view", view);
-        lastRayOrigin = camera.Position; // ← ahora se actualizará siempre, incluso si se mueve con teclado
-
-        // render the loaded model
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f)); // translate it down so it's at the center of the scene
-        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.2f));	// it's a bit too big for our scene, so scale it down
-        shaderModel.setMat4("model", model);
-
-
-        ImGui_ImplOpenGL3_NewFrame();
+        // --- Inicia los nuevos frames de ImGui (¡orden correcto!) ---
         ImGui_ImplGlfw_NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
         ImGui::NewFrame();
+
+        // --- Dibujar el panel lateral (tu panel personalizado) ---
         mostrarPanelEsqueleto();
 
-
-        ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Always); // esquina superior izquierda
-        ImGui::SetNextWindowSize(ImVec2(300, 120), ImGuiCond_Always); // tamaño fijo
-
+        // --- Mostrar info del raycast ---
+        ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Always);
+        ImGui::SetNextWindowSize(ImVec2(300, 120), ImGuiCond_Always);
         ImGui::Begin("Raycast Info", nullptr,
             ImGuiWindowFlags_NoMove |
             ImGuiWindowFlags_NoResize |
@@ -212,29 +197,37 @@ int iniciarAppModelo()
         ImGui::Text("Mouse Pos (Screen): %.1f, %.1f", currentMousePos.x, currentMousePos.y);
         ImGui::Text("Ray Origin: (%.2f, %.2f, %.2f)", lastRayOrigin.x, lastRayOrigin.y, lastRayOrigin.z);
         ImGui::Text("Ray Dir:    (%.2f, %.2f, %.2f)", lastRayDirection.x, lastRayDirection.y, lastRayDirection.z);
-
         ImGui::End();
-        ourModel.Draw(shaderModel);
-        glDisable(GL_DEPTH_TEST);
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        glEnable(GL_DEPTH_TEST);
 
-        // Set light properties
+        // --- Renderizar modelo 3D ---
+        shaderModel.use();
+        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 500.0f);
+        glm::mat4 view = camera.GetViewMatrix();
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.2f));
+
+        shaderModel.setMat4("projection", projection);
+        shaderModel.setMat4("view", view);
+        shaderModel.setMat4("model", model);
         shaderModel.setVec3("dirLight.direction", lightDir);
         shaderModel.setVec3("dirLight.ambient", lightAmbient);
         shaderModel.setVec3("dirLight.diffuse", lightDiffuse);
         shaderModel.setVec3("dirLight.specular", lightSpecular);
 
+        ourModel.Draw(shaderModel);
 
+        // --- Renderizar ImGui encima (sin profundidad) ---
+        glDisable(GL_DEPTH_TEST);
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        glEnable(GL_DEPTH_TEST);
 
-
-
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
+        // --- Mostrar en pantalla ---
         glfwSwapBuffers(window);
-        glfwPollEvents();
     }
+
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
@@ -263,7 +256,7 @@ void processInput(GLFWwindow* window)
 
 
 
-            // Esperar un tiempo para escuchar el sonido
+            //// Esperar un tiempo para escuchar el sonido
             //std::this_thread::sleep_for(std::chrono::seconds(1));
 
         }
