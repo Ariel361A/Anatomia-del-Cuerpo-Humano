@@ -12,5 +12,5 @@ Libraries:
 - Audio: OpenAL
 - A mention of Learn OpenGL where we learned the resources to get started.
 
-  ## License
-  - Distributed under the MIT License.
+## License
+- Distributed under the MIT License.
