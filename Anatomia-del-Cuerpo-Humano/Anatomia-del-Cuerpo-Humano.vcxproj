@@ -192,6 +192,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="modelo2.cpp" />
     <ClCompile Include="src\AudioManager.cpp" />
+    <ClCompile Include="src\EsqueletoPanel.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Inicio.cpp">
       <DeploymentContent>true</DeploymentContent>
