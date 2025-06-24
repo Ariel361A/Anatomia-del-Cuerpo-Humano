@@ -1,0 +1,11 @@
+Model Information:
+* title:	Human skeleton / Esqueleto Humano
+* source:	https://sketchfab.com/3d-models/human-skeleton-esqueleto-humano-a8df3c936bdd4d5688b7827bcb7b2efd
+* author:	Ualde (https://sketchfab.com/sebaualde)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Human skeleton / Esqueleto Humano" (https://sketchfab.com/3d-models/human-skeleton-esqueleto-humano-a8df3c936bdd4d5688b7827bcb7b2efd) by Ualde (https://sketchfab.com/sebaualde) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
