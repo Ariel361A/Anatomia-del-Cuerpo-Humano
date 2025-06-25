@@ -92,7 +92,7 @@ int iniciarAppModelo()
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Esqueleto Humano", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -103,7 +103,7 @@ int iniciarAppModelo()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
-	glfwSetMouseButtonCallback(window, mouse_button_callback);
+
     // Inicializar Dear ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
