@@ -92,7 +92,7 @@ int iniciarAppModelo()
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Esqueleto Humano", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -103,7 +103,7 @@ int iniciarAppModelo()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
-
+	glfwSetMouseButtonCallback(window, mouse_button_callback);
     // Inicializar Dear ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -253,7 +253,7 @@ void processInput(GLFWwindow* window)
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
             camera.ProcessKeyboard(FORWARD, deltaTime);
-
+            panelVisible = false;
 
 
             //// Esperar un tiempo para escuchar el sonido
@@ -261,59 +261,72 @@ void processInput(GLFWwindow* window)
 
         }
 
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
             camera.ProcessKeyboard(BACKWARD, deltaTime);
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            panelVisible = false;
+        }
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
             camera.ProcessKeyboard(LEFT, deltaTime);
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            panelVisible = false;
+        }
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
             camera.ProcessKeyboard(RIGHT, deltaTime);
-
+        panelVisible = false;
+    }
         if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
             camera.Position = glm::vec3(0.24f, 1.75f, -7.00f);
             glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
             camera.Front = glm::normalize( camera.Position - foco);
+            panelVisible = false;
         }
 
         if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
             camera.Position = glm::vec3(-0.50f, 1.60f, -7.20f);
             glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
             camera.Front = glm::normalize(camera.Position - foco);
+            panelVisible = false;
         }
 
         if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
             camera.Position = glm::vec3(1.0f, 1.14f, -7.30f);
             glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
             camera.Front = glm::normalize(camera.Position - foco);
+            panelVisible = false;
         }
 
         if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
             camera.Position = glm::vec3(-0.65f, 0.30f, -8.0f);
             glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
             camera.Front = glm::normalize(camera.Position - foco);
+            panelVisible = false;
         }
 
         if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
             camera.Position = glm::vec3(0.95f, -0.89f, -7.00f);
             glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
             camera.Front = glm::normalize(camera.Position - foco);
+            panelVisible = false;
         }
 
         if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) {
             camera.Position = glm::vec3(0.62f, 0.55f, -7.65f);
             glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
             camera.Front = glm::normalize(camera.Position - foco);
+            panelVisible = false;
         }
 
         if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS) {
             camera.Position = glm::vec3(-0.52f, -0.47f, -7.33f);
             glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
             camera.Front = glm::normalize(camera.Position - foco);
+            panelVisible = false;
         }
 
         if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS) {
             camera.Position = glm::vec3(-0.67f, -1.28f, -7.62f);
             glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
             camera.Front = glm::normalize(camera.Position - foco);
+            panelVisible = false;
         }
 
         if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS) {
@@ -338,6 +351,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 // -------------------------------------------------------
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
+   
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
 
@@ -399,6 +413,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 // Mouse button callback
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
+    panelVisible = true;
     ImGuiIO& io = ImGui::GetIO();
     if (!io.WantCaptureMouse) {
         if (button == GLFW_MOUSE_BUTTON_LEFT) {

@@ -26,8 +26,10 @@ std::map<std::string, glm::vec3> posicionesPartes = {
 };
 
 
+bool panelVisible = true;
 
 void mostrarPanelEsqueleto() {
+    if (!panelVisible) return;
     static char filtro[64] = "";
     static std::string seleccion = "";
 
