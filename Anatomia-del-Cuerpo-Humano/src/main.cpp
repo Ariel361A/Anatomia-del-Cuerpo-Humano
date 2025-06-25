@@ -103,7 +103,7 @@ int iniciarAppModelo()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
-
+	glfwSetMouseButtonCallback(window, mouse_button_callback);
     // Inicializar Dear ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -351,7 +351,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 // -------------------------------------------------------
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
-   
+    
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
 
