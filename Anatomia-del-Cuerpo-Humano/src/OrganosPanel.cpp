@@ -1,10 +1,10 @@
 #include "OrganosPanel.h"
 #include "imgui.h"
-#include "Camera.h"  // Asegúrate que este include esté presente
+#include "Camera.h" 
 #include <string>
 #include <vector>
-#include <cstring>     // Para strlen y strstr
-#include <algorithm>   // Para std::transform
+#include <cstring>   
+#include <algorithm>   // PRRT
 #include <map>
 
 // Referencia global a la cámara (debe estar declarada en main.cpp)
@@ -16,9 +16,9 @@ extern Camera camera;
 std::map<std::string, glm::vec3> posicionesPartes2 = {
     {u8"1. Corazon", glm::vec3(0.0f, 0.4f, -10.5f)},
     {u8"2. Pulmon", glm::vec3(0.0f, 0.2f, -10.5f)},
-    {u8"3. utero", glm::vec3(0.2f, 0.1f, -10.5f)},
-    {u8"4. Rinon", glm::vec3(0.3f, -0.1f, -10.5f)},
-    {u8"5. Pancreas", glm::vec3(0.0f, -0.6f, -10.5f)},
+    {u8"3. Traquea", glm::vec3(0.2f, 0.1f, -10.5f)},
+    {u8"4. Vasos sanguineos", glm::vec3(0.3f, -0.1f, -10.5f)},
+    {u8"5. Apendice", glm::vec3(0.0f, -0.6f, -10.5f)},
     {u8"6. Intestino grueso", glm::vec3(0.0f, 0.0f, -10.5f)},
     {u8"7. Intestino delgado", glm::vec3(0.0f, -0.4f, -10.5f)},
     {u8"8. Estomago", glm::vec3(0.0f, -0.7f, -10.5f)},
@@ -35,9 +35,9 @@ void mostrarPanelorgano() {
     static std::vector<std::pair<int, std::string>> partes = {
         {1, u8"1. Corazon"},
         {2, u8"2. Pulmon"},
-        {3, u8"3. Utero"},
-        {4, u8"4. Rinon"},
-        {5, u8"5. Pancreas"},
+        {3, u8"3. Traquea"},
+        {4, u8"4. Vasos sanguineos"},
+        {5, u8"5. Apendice"},
         {6, u8"6. Intestino grueso"},
         {7, u8"7. Intestino delgado"},
         {8, u8"8. Estomago"},
@@ -73,42 +73,43 @@ void mostrarPanelorgano() {
 
                 // Movimiento personalizado de la cámara
                 if (seleccion == u8"1. Corazon") {
-                    camera.Position = glm::vec3(0.24f, 1.75f, -7.00f);
+                    camera.Position = glm::vec3(0.14f, 0.37f, -5.82f);
                     glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
                     camera.Front = glm::normalize(camera.Position - foco);
                 }
                 else if (seleccion == u8"2. Pulmon") {
-                    camera.Position = glm::vec3(-0.50f, 1.60f, -7.20f);
+                    camera.Position = glm::vec3(0.50f, 0.76f, -5.43f);
                     glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
                     camera.Front = glm::normalize(camera.Position - foco);
                 }
-                else if (seleccion == u8"3. Utero") {
-                    camera.Position = glm::vec3(1.0f, 1.14f, -7.30f);
+                else if (seleccion == u8"3. Traquea") {
+                    camera.Position = glm::vec3(0.50f, 1.14f, -7.30f);
                     glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
                     camera.Front = glm::normalize(camera.Position - foco);
                 }
-                else if (seleccion == u8"4. Rinon") {
-                    camera.Position = glm::vec3(-0.65f, 0.30f, -8.0f);
+                else if (seleccion == u8"4. Vasos sanguineos") {
+                    camera.Position = glm::vec3(-0.65f, 0.30f, -4.0f);
                     glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
                     camera.Front = glm::normalize(camera.Position - foco);
                 }
-                else if (seleccion == u8"5. Pancreas") {
-                    camera.Position = glm::vec3(0.95f, -0.89f, -7.00f);
+                else if (seleccion == u8"5. Apendice") {
+                    camera.Position = glm::vec3(-0.55f, -3.33f, -7.20f);
+                    
                     glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
                     camera.Front = glm::normalize(camera.Position - foco);
                 }
                 else if (seleccion == u8"6. Intestino grueso") {
-                    camera.Position = glm::vec3(0.62f, 0.55f, -7.65f);
+                    camera.Position = glm::vec3(-0.01f, -1.89f, -6.00f);
                     glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
                     camera.Front = glm::normalize(camera.Position - foco);
                 }
                 else if (seleccion == u8"7. Intestino delgado") {
-                    camera.Position = glm::vec3(-0.52f, -0.47f, -7.33f);
+                    camera.Position = glm::vec3(-0.01f, -1.89f, -6.00f);
                     glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
                     camera.Front = glm::normalize(camera.Position - foco);
                 }
                 else if (seleccion == u8"8. Estomago") {
-                    camera.Position = glm::vec3(-0.67f, -1.28f, -7.62f);
+                    camera.Position = glm::vec3(0.95f, -0.89f, -7.00f);
                     glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
                     camera.Front = glm::normalize(camera.Position - foco);
                 }
@@ -128,7 +129,7 @@ void mostrarPanelorgano() {
 
     // Mostrar etiqueta solo si la selección actual es "Mandíbula"
     if (seleccion == u8"1. Corazon") {
-        ImVec2 etiquetaPos2 = ImVec2(1050, 400);  // Ajusta según tu layout
+        ImVec2 etiquetaPos2 = ImVec2(898, 122);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos2, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
 
@@ -144,14 +145,14 @@ void mostrarPanelorgano() {
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoCorazon2D = ImVec2(803, 464);
+        ImVec2 puntoCorazon2D = ImVec2(653, 434);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoCorazon2D, etiquetaPos2, IM_COL32(0, 0, 0, 255), 2.5f);
     }
     else if (seleccion == u8"2. Pulmon") {
-        ImVec2 etiquetaPos = ImVec2(700, 300);  // Ajusta según tu layout
+        ImVec2 etiquetaPos = ImVec2(861, 225);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
         ImGui::Begin("EtiquetaPulmon", nullptr,
@@ -164,77 +165,77 @@ void mostrarPanelorgano() {
         ImGui::Text("Pulmon");
         ImGui::End();
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoCorazon2D = ImVec2(1080, 570);
+        ImVec2 puntoCorazon2D = ImVec2(612, 495);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoCorazon2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
     }
-    else if (seleccion == u8"3. Utero") {
+    else if (seleccion == u8"3. Traquea") {
         ImVec2 etiquetaPos2 = ImVec2(1000, 350);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos2, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
-        ImGui::Begin("EtiquetaUtero", nullptr,
+        ImGui::Begin("EtiquetaTraquea", nullptr,
             ImGuiWindowFlags_NoTitleBar |
             ImGuiWindowFlags_AlwaysAutoResize |
             ImGuiWindowFlags_NoMove |
             ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoCollapse |
             ImGuiWindowFlags_NoSavedSettings);
-        ImGui::Text("Utero");
+        ImGui::Text("Traquea");
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoCorazon2D = ImVec2(338, 452);
+        ImVec2 puntoCorazon2D = ImVec2(365, 620);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoCorazon2D, etiquetaPos2, IM_COL32(0, 0, 0, 255), 2.5f);
     }
-    else if (seleccion == u8"4. Rinon") {
-        ImVec2 etiquetaPos2 = ImVec2(800, 300);  // Ajusta según tu layout
+    else if (seleccion == u8"4. Vasos sanguineos") {
+        ImVec2 etiquetaPos2 = ImVec2(285, 347);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos2, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
-        ImGui::Begin("EtiquetaRinon", nullptr,
+        ImGui::Begin("EtiquetaVasos sanguineos", nullptr,
             ImGuiWindowFlags_NoTitleBar |
             ImGuiWindowFlags_AlwaysAutoResize |
             ImGuiWindowFlags_NoMove |
             ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoCollapse |
             ImGuiWindowFlags_NoSavedSettings);
-        ImGui::Text("Rinon");
+        ImGui::Text("Vasos sanguineos");
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoCorazon2D = ImVec2(1088, 315);
+        ImVec2 puntoCorazon2D = ImVec2(715, 295);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoCorazon2D, etiquetaPos2, IM_COL32(0, 0, 0, 255), 2.5f);
     }
-    else if (seleccion == u8"5. Pancreas") {
-        ImVec2 etiquetaPos2 = ImVec2(800, 260);  // Ajusta según tu layout
+    else if (seleccion == u8"5. Apendice") {
+        ImVec2 etiquetaPos2 = ImVec2(380, 332);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos2, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
-        ImGui::Begin("EtiquetaPancreas", nullptr,
+        ImGui::Begin("EtiquetaApendice", nullptr,
             ImGuiWindowFlags_NoTitleBar |
             ImGuiWindowFlags_AlwaysAutoResize |
             ImGuiWindowFlags_NoMove |
             ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoCollapse |
             ImGuiWindowFlags_NoSavedSettings);
-        ImGui::Text("Pancreas");
+        ImGui::Text("Apendice");
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoCorazon2D = ImVec2(225, 268);
+        ImVec2 puntoCorazon2D = ImVec2(824, 89);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoCorazon2D, etiquetaPos2, IM_COL32(0, 0, 0, 255), 2.5f);
     }
     else if (seleccion == u8"6. Intestino grueso") {
-        ImVec2 etiquetaPos2 = ImVec2(900, 300);  // Ajusta según tu layout
+        ImVec2 etiquetaPos2 = ImVec2(249, 542);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos2, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
         ImGui::Begin("EtiquetaIntestinogrueso", nullptr,
@@ -248,14 +249,14 @@ void mostrarPanelorgano() {
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoCorazon2D = ImVec2(280, 310);
+        ImVec2 puntoCorazon2D = ImVec2(433, 249);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoCorazon2D, etiquetaPos2, IM_COL32(0, 0, 0, 255), 2.5f);
     }
     else if (seleccion == u8"7. Intestino delgado") {
-        ImVec2 etiquetaPos2 = ImVec2(800, 380);  // Ajusta según tu layout
+        ImVec2 etiquetaPos2 = ImVec2(634, 619);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos2, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
         ImGui::Begin("EtiquetaIntestinodelgado", nullptr,
@@ -269,7 +270,7 @@ void mostrarPanelorgano() {
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoCorazon2D = ImVec2(1150, 281);
+        ImVec2 puntoCorazon2D = ImVec2(586, 285);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
@@ -290,7 +291,7 @@ void mostrarPanelorgano() {
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoCorazon2D = ImVec2(1400, 330);
+        ImVec2 puntoCorazon2D = ImVec2(286, 387);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
