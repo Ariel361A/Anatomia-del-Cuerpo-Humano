@@ -23,6 +23,9 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
+#include "OrganosPanel.h"
+
+
 // Declaraciones externas
 extern Camera camera;
 extern float lastX, lastY;
@@ -37,6 +40,20 @@ extern void mouse_button_callback(GLFWwindow* window, int button, int action, in
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
+
+
+float lastX2 = SCR_WIDTH / 2.0f;
+float lastY2 = SCR_HEIGHT / 2.0f;
+bool firstMouse2 = true;
+
+glm::vec2 currentMousePos2;
+glm::vec3 lastRayOrigin2;
+glm::vec3 lastRayDirection2;
+
+void mouse_callback_modelo2(GLFWwindow* window, double xposIn, double yposIn);
+void scroll_callback_modelo2(GLFWwindow* window, double xoffset, double yoffset);
+void mouse_button_callback_modelo2(GLFWwindow* window, int button, int action, int mods);
 
 int iniciarAppModelo2()
 {
@@ -60,9 +77,10 @@ int iniciarAppModelo2()
 
     // Callbacks
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetScrollCallback(window, scroll_callback);
-    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetCursorPosCallback(window, mouse_callback_modelo2);
+    glfwSetScrollCallback(window, scroll_callback_modelo2);
+    glfwSetMouseButtonCallback(window, mouse_button_callback_modelo2);
+
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -129,6 +147,21 @@ int iniciarAppModelo2()
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
+        mostrarPanelorgano(); // <-- Llama al panel aquí
+
+        ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Always);
+        ImGui::SetNextWindowSize(ImVec2(300, 120), ImGuiCond_Always);
+        ImGui::Begin("Raycast Info", nullptr,
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_NoSavedSettings);
+
+        ImGui::Text("Mouse Pos (Screen): %.1f, %.1f", currentMousePos2.x, currentMousePos2.y);
+        ImGui::Text("Ray Origin: (%.2f, %.2f, %.2f)", lastRayOrigin2.x, lastRayOrigin2.y, lastRayOrigin2.z);
+        ImGui::Text("Ray Dir:    (%.2f, %.2f, %.2f)", lastRayDirection2.x, lastRayDirection2.y, lastRayDirection2.z);
+        ImGui::End();
 
         // Puedes agregar tu interfaz aquí (si lo deseas)
         // ImGui::Begin("Modelo cargado"); ImGui::Text("Sistema digestivo"); ImGui::End();
@@ -141,6 +174,9 @@ int iniciarAppModelo2()
         glfwPollEvents();
     }
 
+    
+
+
     // === Cleanup ImGui ===
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
@@ -148,4 +184,71 @@ int iniciarAppModelo2()
 
     glfwTerminate();
     return 0;
+}
+void mouse_callback_modelo2(GLFWwindow* window, double xposIn, double yposIn)
+{
+    float xpos = static_cast<float>(xposIn);
+    float ypos = static_cast<float>(yposIn);
+
+    currentMousePos2 = glm::vec2(xpos, ypos);
+
+    if (firstMouse2)
+    {
+        lastX2 = xpos;
+        lastY2 = ypos;
+        firstMouse2 = false;
+    }
+
+    float xoffset = xpos - lastX2;
+    float yoffset = lastY2 - ypos;
+
+    lastX2 = xpos;
+    lastY2 = ypos;
+
+    ImGuiIO& io = ImGui::GetIO();
+    if (!io.WantCaptureMouse)
+    {
+        camera.ProcessMouseMovement(static_cast<float>(xpos), static_cast<float>(ypos));
+    }
+
+    float ndcX = (2.0f * xpos) / SCR_WIDTH - 1.0f;
+    float ndcY = 1.0f - (2.0f * ypos) / SCR_HEIGHT;
+
+    glm::vec4 rayClip = glm::vec4(ndcX, ndcY, -1.0f, 1.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / SCR_HEIGHT, 0.1f, 500.0f);
+    glm::mat4 view = camera.GetViewMatrix();
+
+    glm::vec4 rayEye = glm::inverse(projection) * rayClip;
+    rayEye = glm::vec4(rayEye.x, rayEye.y, -1.0f, 0.0f);
+
+    glm::vec3 rayWorld = glm::vec3(glm::inverse(view) * rayEye);
+    rayWorld = glm::normalize(rayWorld);
+
+    lastRayOrigin2 = camera.Position;
+    lastRayDirection2 = rayWorld;
+}
+
+void scroll_callback_modelo2(GLFWwindow* window, double xoffset, double yoffset)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    if (!io.WantCaptureMouse) {
+        camera.ProcessMouseScroll(static_cast<float>(yoffset));
+    }
+}
+
+
+void mouse_button_callback_modelo2(GLFWwindow* window, int button, int action, int mods)
+{
+    ImGuiIO& io = ImGui::GetIO();
+
+    // Activar panel cuando se presiona clic izquierdo en escena
+    if (!io.WantCaptureMouse && button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        panel2Visible = true;
+        camera.SetLeftMousePressed(true);
+    }
+
+    // Desactivar cuando se suelta
+    if (!io.WantCaptureMouse && button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+        camera.SetLeftMousePressed(false);
+    }
 }
