@@ -174,9 +174,6 @@ int iniciarAppModelo2()
         glfwPollEvents();
     }
 
-    
-
-
     // === Cleanup ImGui ===
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
