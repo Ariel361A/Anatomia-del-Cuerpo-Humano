@@ -198,7 +198,7 @@ void mostrarPanelEsqueleto() {
         drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
     }
     else if (seleccion == u8"4. Radio") {
-        ImVec2 etiquetaPos = ImVec2(399, 293);  // Ajusta según tu layout
+        ImVec2 etiquetaPos = ImVec2(399,293 );  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
         ImGui::Begin("EtiquetaRadio", nullptr,

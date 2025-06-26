@@ -190,6 +190,8 @@
     </ClCompile>
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="modelo2.cpp" />
+    <ClCompile Include="OrganosPanel.cpp" />
     <ClCompile Include="src\AudioManager.cpp" />
     <ClCompile Include="src\EsqueletoPanel.cpp" />
     <ClCompile Include="src\glad.c" />
@@ -237,7 +239,7 @@
     <ClInclude Include="Dependencies\include\root_directory.h" />
     <ClInclude Include="Dependencies\include\Shader.h" />
     <ClInclude Include="Dependencies\include\ShaderModel.h" />
-    <ClInclude Include="src\OrganosPanel.h" />
+    <ClInclude Include="OrganosPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\LoadModel.fs" />
