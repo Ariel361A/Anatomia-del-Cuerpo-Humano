@@ -43,7 +43,7 @@ void mostrarPanelEsqueleto() {
         {7, u8"7. Femur"},
         {8, u8"8. Tibia"},
         {9, u8"9. Costillas"},
-        
+
     };
 
     ImGuiIO& io = ImGui::GetIO();
@@ -77,7 +77,7 @@ void mostrarPanelEsqueleto() {
                 if (seleccion == u8"1. Mandibula") {
                     camera.Position = glm::vec3(0.24f, 1.75f, -7.00f);
                     glm::vec3 foco = glm::vec3(0.0f, 1.75f, 0.0f);
-                    camera.Front = glm::normalize( camera.Position - foco);
+                    camera.Front = glm::normalize(camera.Position - foco);
                 }
                 else if (seleccion == u8"2. Clavicula") {
                     camera.Position = glm::vec3(-0.50f, 1.60f, -7.20f);
@@ -134,7 +134,7 @@ void mostrarPanelEsqueleto() {
 
     // Mostrar etiqueta solo si la selección actual es "Mandíbula"
     if (seleccion == u8"1. Mandibula") {
-        ImVec2 etiquetaPos = ImVec2(1050, 400);  // Ajusta según tu layout
+        ImVec2 etiquetaPos = ImVec2(870, 326);  // Ajusta según tu layout(texto)
         ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
 
@@ -150,14 +150,14 @@ void mostrarPanelEsqueleto() {
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoMandibula2D = ImVec2(803, 464);
+        ImVec2 puntoMandibula2D = ImVec2(562, 313);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
     }
     else if (seleccion == u8"2. Clavicula") {
-        ImVec2 etiquetaPos = ImVec2(700, 300);  // Ajusta según tu layout
+        ImVec2 etiquetaPos = ImVec2(465, 203);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
         ImGui::Begin("EtiquetaClavicula", nullptr,
@@ -170,14 +170,14 @@ void mostrarPanelEsqueleto() {
         ImGui::Text("Clavícula");
         ImGui::End();
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoMandibula2D = ImVec2(1080, 570);
+        ImVec2 puntoMandibula2D = ImVec2(784, 381);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
-	}
+    }
     else if (seleccion == u8"3. Humero") {
-        ImVec2 etiquetaPos = ImVec2(1000, 350);  // Ajusta según tu layout
+        ImVec2 etiquetaPos = ImVec2(881, 326);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
         ImGui::Begin("EtiquetaHumero", nullptr,
@@ -188,17 +188,17 @@ void mostrarPanelEsqueleto() {
             ImGuiWindowFlags_NoCollapse |
             ImGuiWindowFlags_NoSavedSettings);
         ImGui::Text("Húmero");
-		ImGui::End();
+        ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoMandibula2D = ImVec2(338, 452);
+        ImVec2 puntoMandibula2D = ImVec2(247, 334);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
-        }
+    }
     else if (seleccion == u8"4. Radio") {
-        ImVec2 etiquetaPos = ImVec2(800, 300);  // Ajusta según tu layout
+        ImVec2 etiquetaPos = ImVec2(399, 293);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
         ImGui::Begin("EtiquetaRadio", nullptr,
@@ -208,18 +208,18 @@ void mostrarPanelEsqueleto() {
             ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoCollapse |
             ImGuiWindowFlags_NoSavedSettings);
-		ImGui::Text("Radio");
+        ImGui::Text("Radio");
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoMandibula2D = ImVec2(1088, 315);
+        ImVec2 puntoMandibula2D = ImVec2(769, 296);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
     }
     else if (seleccion == u8"5. Rotula") {
-        ImVec2 etiquetaPos = ImVec2(800, 260);  // Ajusta según tu layout
+        ImVec2 etiquetaPos = ImVec2(780, 197);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
         ImGui::Begin("EtiquetaRotula", nullptr,
@@ -228,12 +228,12 @@ void mostrarPanelEsqueleto() {
             ImGuiWindowFlags_NoMove |
             ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoCollapse |
-			ImGuiWindowFlags_NoSavedSettings);
+            ImGuiWindowFlags_NoSavedSettings);
         ImGui::Text("Rótula");
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoMandibula2D = ImVec2(225, 268);
+        ImVec2 puntoMandibula2D = ImVec2(182, 175);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
@@ -254,14 +254,14 @@ void mostrarPanelEsqueleto() {
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoMandibula2D = ImVec2(280, 310);
+        ImVec2 puntoMandibula2D = ImVec2(213, 303);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
     }
     else if (seleccion == u8"7. Femur") {
-        ImVec2 etiquetaPos = ImVec2(800, 380);  // Ajusta según tu layout
+        ImVec2 etiquetaPos = ImVec2(450, 344);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
         ImGui::Begin("EtiquetaFemur", nullptr,
@@ -270,19 +270,19 @@ void mostrarPanelEsqueleto() {
             ImGuiWindowFlags_NoMove |
             ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoCollapse |
-			ImGuiWindowFlags_NoSavedSettings);
+            ImGuiWindowFlags_NoSavedSettings);
         ImGui::Text("Fémur");
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoMandibula2D = ImVec2(1150, 281);
+        ImVec2 puntoMandibula2D = ImVec2(825, 228);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
     }
     else if (seleccion == u8"8. Tibia") {
-        ImVec2 etiquetaPos = ImVec2(800, 400);  // Ajusta según tu layout
+        ImVec2 etiquetaPos = ImVec2(500, 299);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
         ImGui::Begin("EtiquetaTibia", nullptr,
@@ -290,20 +290,20 @@ void mostrarPanelEsqueleto() {
             ImGuiWindowFlags_AlwaysAutoResize |
             ImGuiWindowFlags_NoMove |
             ImGuiWindowFlags_NoResize |
-			ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoCollapse |
             ImGuiWindowFlags_NoSavedSettings);
         ImGui::Text("Tibia");
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoMandibula2D = ImVec2(1400, 330);
+        ImVec2 puntoMandibula2D = ImVec2(997, 262);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
     }
     else if (seleccion == u8"9. Costillas") {
-        ImVec2 etiquetaPos = ImVec2(800, 680);  // Ajusta según tu layout
+        ImVec2 etiquetaPos = ImVec2(455, 453);  // Ajusta según tu layout
         ImGui::SetNextWindowPos(etiquetaPos, ImGuiCond_Always);
         ImGui::SetNextWindowBgAlpha(0.85f);
         ImGui::Begin("EtiquetaCostillas", nullptr,
@@ -311,19 +311,19 @@ void mostrarPanelEsqueleto() {
             ImGuiWindowFlags_AlwaysAutoResize |
             ImGuiWindowFlags_NoMove |
             ImGuiWindowFlags_NoResize |
-			ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoCollapse |
             ImGuiWindowFlags_NoSavedSettings);
         ImGui::Text("Costillas");
         ImGui::End();
 
         // Coordenadas fijas de la mandíbula en pantalla (según imagen anterior)
-        ImVec2 puntoMandibula2D = ImVec2(1150, 650);
+        ImVec2 puntoMandibula2D = ImVec2(824, 437);
 
         // Dibuja línea
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         drawList->AddLine(puntoMandibula2D, etiquetaPos, IM_COL32(0, 0, 0, 255), 2.5f);
     }
-   
+
 
     ImGui::EndChild();
     ImGui::End();
